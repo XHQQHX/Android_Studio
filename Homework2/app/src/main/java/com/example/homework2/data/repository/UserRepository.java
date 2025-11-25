@@ -1,58 +1,87 @@
 package com.example.homework2.data.repository;
 
-import android.content.ContentValues;
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.example.homework2.data.db.MyDBHelper;
-
-import java.io.ByteArrayOutputStream;
+import com.example.homework2.data.model.User;
 
 public class UserRepository {
     private final MyDBHelper dbHelper;
     public UserRepository(Context context) {
-        dbHelper = new MyDBHelper(context);
+        this.dbHelper = new MyDBHelper(context);
     }
-    public void insertUser(String username, String email, String password, Bitmap avatar, String signature) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("username", username);
-        values.put("email", email);
-        values.put("password", password);
-        values.put("signature", signature);
+    public boolean insertDefaultUser() {
+        try (SQLiteDatabase db = dbHelper.getWritableDatabase()) {
+            // 1. 先查询默认账号是否已存在（避免重复插入）
+            User defaultUser = queryUserByEmail("root@example.com");
+            if (defaultUser != null) {
+                Log.d(TAG, "默认账号已存在");
+                return true;
+            } else {
+                Log.d(TAG, "默认账号不存在，开始插入");
+            }
 
-        if (avatar != null) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            avatar.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            values.put("avatar", stream.toByteArray());
+            db.execSQL(
+                    "INSERT INTO " + MyDBHelper.TABLE_USER + "(" +
+                            MyDBHelper.COLUMN_USERNAME + "," +
+                            MyDBHelper.COLUMN_EMAIL + "," +
+                            MyDBHelper.COLUMN_PASSWORD + "," +
+                            MyDBHelper.COLUMN_AVATAR_PATH + "," +
+                            MyDBHelper.COLUMN_SIGNATURE + ")" +
+                            "VALUES (" +
+                            "'root'," +
+                            "'root@example.com'," +
+                            "'123456'," +
+                            "'@drawable/default_avatar'," +
+                            "'我是管理员'" +
+                            ")"
+            );
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-
-        db.insert("user", null, values);
-        db.close();
     }
-    public boolean validateUser(String username, String password) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM user WHERE username=? AND password=?",
-                new String[]{username, password});
 
-        boolean result = cursor.getCount() > 0;
-        cursor.close();
-        db.close();
-        return result;
-    }
-    public Bitmap getUserAvatar(String username) {
+    public User queryUserByEmail(String email) {
+        User user = null;
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT avatar FROM user WHERE username=?", new String[]{username});
-        Bitmap avatar = null;
-        if (cursor.moveToFirst()) {
-            byte[] data = cursor.getBlob(cursor.getColumnIndex("avatar"));
-            if (data != null) avatar = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+        String[] columns = {
+                MyDBHelper.COLUMN_ID,
+                MyDBHelper.COLUMN_USERNAME,
+                MyDBHelper.COLUMN_EMAIL,
+                MyDBHelper.COLUMN_PASSWORD,
+                MyDBHelper.COLUMN_AVATAR_PATH,
+                MyDBHelper.COLUMN_SIGNATURE
+        };
+        String selection = MyDBHelper.COLUMN_EMAIL + " = ?";
+        String[] selectionArgs = {email};
+
+        Cursor cursor = db.query(
+                MyDBHelper.TABLE_USER,
+                columns,
+                selection,
+                selectionArgs,
+                null, null, null
+        );
+        if (cursor.moveToNext()) {
+            // 用全参构造方法快速封装数据
+            user = new User(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(MyDBHelper.COLUMN_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(MyDBHelper.COLUMN_USERNAME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(MyDBHelper.COLUMN_EMAIL)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(MyDBHelper.COLUMN_PASSWORD)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(MyDBHelper.COLUMN_AVATAR_PATH)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(MyDBHelper.COLUMN_SIGNATURE))
+            );
         }
         cursor.close();
-        db.close();
-        return avatar;
+        return user;
     }
 }

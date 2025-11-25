@@ -11,4 +11,12 @@
     <string name="login_no_account">还没有账户？</string>
     <string name="login_signup">立即注册</string>
     <string name="divider_or">或者</string>
+    <string name="user_name">用户名</string>
+    <string name="user_signature">用户签名</string>
+    <string name="user_info">个人信息</string>
+    <string name="user_favorite">我的收藏</string>
+    <string name="user_history">浏览历史</string>
+    <string name="user_setting">设置</string>
+    <string name="user_about">关于我们</string>
+    <string name="user_feedback">意见反馈</string>
 </resources>

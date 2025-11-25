@@ -1,5 +1,6 @@
 package com.example.homework2.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homework2.R;
 import com.example.homework2.activity.ProfileActivity;
+import com.example.homework2.data.model.User;
+import com.example.homework2.data.repository.UserRepository;
+import com.example.homework2.data.sp.UserInfoSP;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "已点击注册", Toast.LENGTH_SHORT).show());
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupPasswordToggle() {
         login_password.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -83,8 +88,12 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
             return;
         }
-        boolean isSuccess = false;
-        if(isSuccess) {
+        UserRepository userRepository = new UserRepository(this);
+        User user = userRepository.queryUserByEmail(email);
+        if(user != null && user.getPassword().equals(password)) {
+            UserInfoSP userInfoSP = UserInfoSP.getInstance(this);
+            userInfoSP.saveUserInfo(user.getUsername(), user.getAvatar_path(), user.getSignature());
+
             startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
             finish();
         } else {
