@@ -40,7 +40,6 @@ public class ToastUtils {
         toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 200);
         toast.show();
     }
-
     // 简化调用（默认普通样式 + 短时长）
     public static void show(Context context, String message) {
         show(context, message, Type.NORMAL, Toast.LENGTH_SHORT);

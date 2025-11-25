@@ -25,7 +25,6 @@ public class UserRepository {
             } else {
                 Log.d(TAG, "默认账号不存在，开始插入");
             }
-
             db.execSQL(
                     "INSERT INTO " + MyDBHelper.TABLE_USER + "(" +
                             MyDBHelper.COLUMN_USERNAME + "," +
