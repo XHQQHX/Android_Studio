@@ -32,21 +32,6 @@ public class UserInfoSP {
                 .putString(KEY_SIGNATURE, signature)
                 .apply();
     }
-    public void clearUserInfo() {
-        sp.edit()
-                .putBoolean(KEY_IS_LOGIN, false)
-                .putString(KEY_USER_NAME, "")
-                .putString(KEY_AVATAR_PATH, "")
-                .putString(KEY_SIGNATURE, "暂无签名")
-                .apply();
-    }
-    public void updateUserInfo(String username, String avatarPath, String signature) {
-        sp.edit()
-                .putString(KEY_USER_NAME, username)
-                .putString(KEY_AVATAR_PATH, avatarPath)
-                .putString(KEY_SIGNATURE, signature)
-                .apply();
-    }
     public boolean isLogin() {
         return sp.getBoolean(KEY_IS_LOGIN, false);
     }
@@ -54,7 +39,7 @@ public class UserInfoSP {
         return sp.getString(KEY_USER_NAME, "默认用户");
     }
     public String getAvatarPath() {
-        return sp.getString(KEY_AVATAR_PATH, "@drawable/default_avatar");
+        return sp.getString(KEY_AVATAR_PATH, "@drawable/ic_default_avatar");
     }
     public String getSignature() {
         return sp.getString(KEY_SIGNATURE, "暂无签名");

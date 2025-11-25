@@ -14,10 +14,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.homework2.R;
-import com.example.homework2.activity.ProfileActivity;
 import com.example.homework2.data.model.User;
 import com.example.homework2.data.repository.UserRepository;
 import com.example.homework2.data.sp.UserInfoSP;
+import com.example.homework2.utils.ToastUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,13 +41,13 @@ public class LoginActivity extends AppCompatActivity {
 
         login_btn.setOnClickListener(v -> handleLogin());
         login_forget_password.setOnClickListener(v ->
-                Toast.makeText(LoginActivity.this, "已点击忘记密码", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(LoginActivity.this, "已点击忘记密码", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
         login_wechat_btn.setOnClickListener(v ->
-                Toast.makeText(LoginActivity.this, "已点击微信登录", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(LoginActivity.this, "已点击微信登录", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
         login_apple_btn.setOnClickListener(v ->
-                Toast.makeText(LoginActivity.this, "已点击苹果登录", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(LoginActivity.this, "已点击苹果登录", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
         login_signup.setOnClickListener(v ->
-                Toast.makeText(LoginActivity.this, "已点击注册", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(LoginActivity.this, "已点击注册账号", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -81,11 +81,11 @@ public class LoginActivity extends AppCompatActivity {
         String email = login_email.getText().toString();
         String password = login_password.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "请输入邮箱", Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, "请输入邮箱", ToastUtils.Type.WARNING, Toast.LENGTH_SHORT);
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, "请输入密码", ToastUtils.Type.WARNING, Toast.LENGTH_SHORT);
             return;
         }
         UserRepository userRepository = new UserRepository(this);
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
             finish();
         } else {
-            Toast.makeText(this, "邮箱或密码错误", Toast.LENGTH_SHORT).show();
+            ToastUtils.show(this, "邮箱或密码错误", ToastUtils.Type.WARNING, Toast.LENGTH_SHORT);
         }
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="@drawable/toast_bg"
+    android:gravity="center_vertical"
+    android:elevation="8dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp">
+
+    <!-- 状态图标（增大尺寸，优化间距） -->
+    <ImageView
+        android:id="@+id/iv_toast_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="@null" />
+
+    <!-- 提示文字（优化字体颜色、大小、字重） -->
+    <TextView
+        android:id="@+id/tv_toast_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="#1A7D73"
+        android:textStyle="bold"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2dp" />
+
+</LinearLayout>

@@ -10,6 +10,7 @@ import com.example.homework2.activity.LoginActivity;
 import com.example.homework2.data.repository.UserRepository;
 import com.example.homework2.data.sp.SharePreference;
 import com.example.homework2.data.sp.UserInfoSP;
+import com.example.homework2.utils.ToastUtils;
 
 import java.io.File;
 
@@ -35,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
             // 主线程弹 Toast 提示
             runOnUiThread(() -> {
                 if (isExists) {
+                    //ToastUtils.show(MainActivity.this, "数据库文件已存在：" + dbPath, ToastUtils.Type.SUCCESS, Toast.LENGTH_LONG);
                     Toast.makeText(MainActivity.this, "数据库文件已创建：" + dbPath, Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "数据库文件不存在", Toast.LENGTH_SHORT).show();
+                    ToastUtils.show(MainActivity.this, "数据库文件不存在：" + dbPath, ToastUtils.Type.WARNING, Toast.LENGTH_LONG);
                 }
             });
         }).start();
@@ -57,20 +59,12 @@ public class MainActivity extends AppCompatActivity {
                     if (isInserted) {
                         sharePreference.setHasInsertDefault(true);
                     } else {
-                        runOnUiThread(() -> Toast.makeText(
-                                MainActivity.this,
-                                "数据库初始化失败，请重启App",
-                                Toast.LENGTH_SHORT
-                        ).show());
+                        runOnUiThread(() -> ToastUtils.show(MainActivity.this, "插入默认用户失败", ToastUtils.Type.WARNING, Toast.LENGTH_SHORT));
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                runOnUiThread(()-> Toast.makeText(
-                        MainActivity.this,
-                        "启动失败：" + e.getMessage(),
-                        Toast.LENGTH_SHORT
-                ).show());
+                runOnUiThread(()-> ToastUtils.show(MainActivity.this,"启动失败" + e.getMessage(), ToastUtils.Type.WARNING, Toast.LENGTH_SHORT));
             } finally {
                 jumpToNextPage();
             }

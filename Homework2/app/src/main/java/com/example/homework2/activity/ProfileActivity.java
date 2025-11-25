@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 
 import com.example.homework2.R;
 import com.example.homework2.data.sp.UserInfoSP;
+import com.example.homework2.utils.ToastUtils;
 
 public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,6 @@ public class ProfileActivity extends AppCompatActivity {
         String username = userInfoSP.getUsername();
         String signature = userInfoSP.getSignature();
         String avatarPath = userInfoSP.getAvatarPath();
-        Toast.makeText(this, avatarPath, Toast.LENGTH_SHORT).show();
 
         tvUsername.setText(username);
         tvSignature.setText(signature);
@@ -43,17 +43,17 @@ public class ProfileActivity extends AppCompatActivity {
         IvAvatar.setImageResource(resourceId);
 
         user_info.setOnClickListener(v ->
-                Toast.makeText(this, "已点击个人信息", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(this, "已点击个人信息", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
         user_favorite.setOnClickListener(v ->
-                Toast.makeText(this, "已点击我的收藏", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(this, "已点击我的收藏", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
         user_history.setOnClickListener(v ->
-                Toast.makeText(this, "已点击浏览历史", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(this, "已点击浏览历史", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
         user_setting.setOnClickListener(v ->
-                Toast.makeText(this, "已点击设置", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(this, "已点击设置", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
         user_about.setOnClickListener(v ->
-                Toast.makeText(this, "已点击关于我们", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(this, "已点击关于我们", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
         user_feedback.setOnClickListener(v ->
-                Toast.makeText(this, "已点击意见反馈", Toast.LENGTH_SHORT).show());
+                ToastUtils.show(this, "已点击意见反馈", ToastUtils.Type.SUCCESS, Toast.LENGTH_SHORT));
 
     }
 }
