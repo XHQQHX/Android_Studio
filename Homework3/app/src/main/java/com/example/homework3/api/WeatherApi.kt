@@ -9,6 +9,7 @@ import okhttp3.Request
 
 object WeatherApi {
     private const val API_KEY = "3ea5699df09480d1f8d711feb04bea6a"
+    //private const val API_KEY = ""
     private const val BASE_URL = "https://restapi.amap.com/v3/weather"
 
     private val client = OkHttpClient()

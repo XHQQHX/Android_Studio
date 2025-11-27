@@ -45,7 +45,6 @@ fun ForecastsScreen(onNavigateToLives: () -> Unit) {
                     Text("白天天气：${cast.dayweather}, 温度：${cast.daytemp}℃")
                     Text("夜间天气：${cast.nightweather}, 温度：${cast.nighttemp}℃")
                 }
-                Divider()
             }
 
             Spacer(modifier = Modifier.height(32.dp))
